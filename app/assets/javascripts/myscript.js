@@ -105,6 +105,28 @@ JS.ReviewModule = (function(){
 
   }
 
+  function getNextPage(url){
+
+    $.ajax({
+
+      url: url,
+
+      method: "GET",
+
+      dataType: "json",
+
+      success: function(json){
+        buildReviewsList(json);
+      },
+
+      error: function(){
+        alert("error");
+      }
+
+
+    });
+  }
+
   function buildReviewsList(reviews){
     console.log(reviews);
     var $table = $('.review-table');
@@ -122,5 +144,21 @@ JS.ReviewModule = (function(){
 
   return{
     getReviews: getReviews,
+    getNextPage: getNextPage
   };
 })();
+
+$(document).ready(function(){
+
+  $(window).scroll(function(){
+            // if you're at the bottom of the page
+      if  (Math.ceil($(window).scrollTop()) == Math.floor($(document).height() - $(window).height()) ){
+
+        JS.ReviewModule.getNextPage($('.page .next_page a').attr("href"));
+
+      }
+    });
+
+});
+
+

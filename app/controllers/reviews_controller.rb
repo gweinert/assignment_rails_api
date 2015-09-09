@@ -45,7 +45,7 @@ class ReviewsController < ApplicationController
 
   def index
     @review = Review.new
-    @reviews = Review.order(date: :desc)
+    @reviews = Review.paginate(:page => params[:page]).order(date: :desc)
 
     respond_to do |format|
       format.html { render :index }
